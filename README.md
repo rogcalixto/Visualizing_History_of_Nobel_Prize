@@ -1,4 +1,4 @@
-# VisualizingH the History of Nobel Prize Winners
+# Visualizing the History of Nobel Prize Winners
 This project analyzes Nobel Prize winner data to identify patterns and answer specific questions about the laureates.
 
 ## Objectives
