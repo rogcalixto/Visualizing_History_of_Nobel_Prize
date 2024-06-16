@@ -30,8 +30,8 @@ Individuals or organizations that have won more than one Nobel Prize
 repeat_list: (list of full names)
 
 # Project Structure
-data/: Contains the Nobel Prize winner dataset.
-scripts/: Includes Python scripts for data analysis and pattern identification.
-notebooks/: Jupyter notebooks for exploratory data analysis and visualization.
+data/: Contains the Nobel Prize winner dataset. /n
+scripts/: Includes Python scripts for data analysis and pattern identification. /n
+notebooks/: Jupyter notebooks for exploratory data analysis and visualization. /n
 results/: Stores the results of the analysis, including the variables mentioned above.
 Installation and Usage
