@@ -1,0 +1,58 @@
+# Loading in required libraries
+import pandas as pd
+import seaborn as sns
+import numpy as np
+import matplotlib.pyplot as plt
+
+nobel = pd.read_csv('data/nobel.csv') #loads csv file
+# Start coding here!
+#Most common Gender and Birth Country
+top_gender = nobel['sex'].value_counts(sort = True).index[0]
+top_gender_percent = int(100 * (nobel['sex'].value_counts(normalize = True).max().round(2)))
+top_country = nobel['birth_country'].value_counts(sort = True).index[0]
+print("The Nobel Prize is perhaps the world's most well know scientific award. Since 1901, every year it has been awarded to scientists and scholars around the globe who's contributions had a enormous impact on the world. At the time of the first few ceremonies, the Nobel Prize was a very Eurocentric and male dominated prize. However in the present day the award is free of bias. Right?\n")
+ 
+#Decade with the highest proportion of US Winners
+nobel['usa_born_winner'] = nobel['birth_country'] == "United States of America"
+nobel['decade'] = (np.floor(nobel['year']/ 10) * 10).astype(int)
+prop_usa_winners = nobel.groupby('decade', as_index = False)['usa_born_winner'].mean()
+max_decade_usa = prop_usa_winners[prop_usa_winners['usa_born_winner'] == prop_usa_winners['usa_born_winner'].max()]['decade'].values[0]
+
+print("Although we might like to make this claim, the most laureates of the Nobel Prize come from " + top_country + ". Since the 1900's the United States of America has birth many winners of the prestigous award. With a tendency for each decade to claim more and more portions of the total awards handed out each year. With the USA having the highest proportion of winners in " + str(max_decade_usa) + "'s.")
+
+#Graph to Show Winner proportions
+g = sns.lineplot(x=nobel['decade'], y = nobel['usa_born_winner'], ci=None)
+g.set_title("Proportions of USA Winners per Decade")
+g.set(xlabel = "Decade", ylabel= "Proportion of USA Winners")
+plt.show()
+
+#Decade and Category Pair with highest proportion of Female laureates
+nobel['female_winner'] = nobel['sex'] == "Female"
+prop_female_winners = nobel.groupby(['decade', 'category'], as_index=False)['female_winner'].mean()
+max_female_decade_category = prop_female_winners[prop_female_winners['female_winner'] == prop_female_winners['female_winner'].max()]['category'].values[0]
+max_female_decade_decade = prop_female_winners[prop_female_winners['female_winner'] == prop_female_winners['female_winner'].max()]['decade'].values[0]
+max_female_dict = {max_female_decade_decade: max_female_decade_category}
+
+
+#First Female Winner
+woman_only = nobel[nobel['sex'] == "Female"]
+first_woman_name = woman_only[woman_only['year'] == woman_only['year'].min()]['full_name'].values[0]
+first_woman_category = woman_only[woman_only['year'] == woman_only['year'].min()]['category'].values[0]
+#Won Multiple Prizes
+counts = nobel['full_name'].value_counts()
+repeat = counts[counts >= 2].index
+repeat_list = list(repeat)
+
+print("Similary the Nobel Prize still tends to be a " + str(top_gender) + " focused award with " + str(top_gender_percent) + "% of Nobel Prizes being awarded to them. However progress was made in 1903 when the Nobel Prize was handed to " + str(first_woman_name) + " making her the first female winner of the award. She was awarded the Nobel Prize for her incredible contributions to the field of " + str(first_woman_category) + ". Since then more and more woman have laid claim to the award but at underwhelming proportions. Displaying the disparity of acknowledgement in the contributions of female scientists and scholars around the world. Shown below are the proportions of female winners per category in each decade." )
+
+#Graph to show Decade and Category Pair
+g = sns.lineplot(x= 'decade', y= 'female_winner', hue = 'category', data = prop_female_winners)
+sns.set_palette("RdBu")
+g.set_title("Proportion of Female Winners for each Decade per Category")
+g.set(xlabel= "Decade", ylabel="Proportion of Female Winners")
+plt.show()
+print("Despite this trend, in the " + str(max_female_decade_decade) + "'s women are dominiating the awards in the field of " + str(max_female_decade_category) + " winning half of all the Nobel Prizes in that category.")
+
+print("\nWhile winning this award for many is the highlight of their careers, some refuse to be content with just a single award. The following people/organization's have won more than 1 Nobel Prize: ")
+for name in repeat_list:
+    print("-" + name)
