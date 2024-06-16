@@ -1,7 +1,7 @@
-# Visualizing_History_of_Nobel_Prize
+# VisualizingH the History of Nobel Prize Winners
 This project analyzes Nobel Prize winner data to identify patterns and answer specific questions about the laureates.
 
-# Objectives
+## Objectives
 The main objectives of this project are to:
 
 Determine the most commonly awarded gender and birth country.
@@ -10,7 +10,7 @@ Find the decade and Nobel Prize category combination with the highest proportion
 Discover the first woman to receive a Nobel Prize and the category in which she won.
 List individuals or organizations that have won more than one Nobel Prize.
 
-# Answers to Key Questions
+## Answers to Key Questions
 Most commonly awarded gender and birth country
 
 top_gender: (string variable)
